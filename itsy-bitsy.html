@@ -1,0 +1,177 @@
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .card {
+    max-width: 520px;
+    width: 100%;
+    background: #fff8fb;
+    border-radius: 28px;
+    padding: 3rem 2.5rem;
+    text-align: center;
+    border: 2px dashed #6082B6;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  .deco {
+    position: absolute;
+    font-size: 60px;
+    opacity: 0.08;
+    font-family: sans-serif;
+  }
+
+  .badge {
+    display: inline-block;
+    background: #CCCCFF;
+    color: #A7C7E7;
+    font-family: 'Caveat Brush', cursive;
+    font-size: 15px;
+    padding: 4px 16px;
+    border-radius: 50px;
+    margin-bottom: 1.2rem;
+    letter-spacing: 1px;
+  }
+
+  .heart-row {
+    font-size: 26px;
+    letter-spacing: 8px;
+    margin-bottom: 1rem;
+    color: #e0607a;
+    animation: float 2.8s ease-in-out infinite;
+  }
+
+  .to-line {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 18px;
+    color: #c08090;
+    margin-bottom: 0.2rem;
+  }
+
+  .name {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 3rem;
+    color: #c0304a;
+    margin-bottom: 1.4rem;
+    line-height: 1.1;
+  }
+
+  .divider {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 20px;
+    color: #f4a0bc;
+    letter-spacing: 6px;
+    margin: 0.8rem 0 1.4rem;
+  }
+
+  .message {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 1.35rem;
+    line-height: 1.9;
+    color: #5a2535;
+  }
+
+  .highlight {
+    color: #e0405a;
+    font-size: 1.5rem;
+  }
+
+  .wink {
+    display: inline-block;
+    animation: wink 2s ease-in-out infinite;
+  }
+
+  .signature-label {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 16px;
+    color: #c08090;
+    margin-top: 1.6rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .signature {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 2.2rem;
+    color: #c0304a;
+  }
+
+  .btn {
+    margin-top: 1.8rem;
+    display: inline-block;
+    background: #e8507a;
+    color: #fff;
+    font-family: 'Caveat Brush', cursive;
+    font-size: 18px;
+    padding: 0.6rem 2rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .btn:hover { background: #c0304a; transform: scale(1.04) rotate(-1deg); }
+  .btn:active { transform: scale(0.97); }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+  }
+  @keyframes wink {
+    0%, 90%, 100% { transform: scaleX(1); }
+    95% { transform: scaleX(0.1); }
+  }
+
+  .stars {
+    font-size: 18px;
+    color: #f4b0c0;
+    letter-spacing: 5px;
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<div style="min-height:100vh; background:#fff0f5; display:flex; align-items:center; justify-content:center; padding:2rem;">
+<div class="card">
+
+  <div class="deco" style="top:-10px; left:-10px;">💕</div>
+  <div class="deco" style="bottom:-10px; right:-10px;">🌸</div>
+
+  <div class="badge">✨ just for you ✨</div>
+
+  <div class="heart-row">♡ ♡ ♡</div>
+
+  <p class="to-line">hey, you —</p>
+  <p class="name">my hardworking babe 💛</p>
+
+  <div class="divider">~ ~ ~ ~</div>
+
+  <p class="message">
+    okay but can we talk about how<br>
+    <span class="highlight">insanely attractive</span> it is<br>
+    when you work hard? 😤🔥<br><br>
+
+    like seriously. the dedication,<br>
+    the focus, the way you just <em>go</em> for it —<br>
+    <span class="highlight">I'm literally obsessed with you.</span><br><br>
+
+    you've been putting in so much lately<br>
+    and i see every bit of it. 👀<br>
+    rest is coming, i promise —<br>
+    but first let me say:<br><br>
+
+    <span class="highlight">thank you.</span><br>
+    for everything. for being you.<br>
+    for making me the luckiest girl ever <span class="wink">😉</span>
+  </p>
+
+  <div class="divider">~ ~ ~ ~</div>
+
+  <p class="stars">★ ★ ★</p>
+  <p class="signature-label">yours (obviously),</p>
+  <p class="signature">your biggest fan 💋</p>
+
+  <button class="btn" onclick="this.innerText = '💋 mwah! sent! 💋'">send a kiss</button>
+
+</div>
+</div>
