@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fawn's Veil — Independent Game Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:     #0d0b0e;
+      --ink2:    #2a2030;
+      --mist:    #6b5f72;
+      --ash:     #9e93a6;
+      --fog:     #cec6d4;
+      --veil:    #f0ecf3;
+      --bone:    #faf8fb;
+      --gold:    #722F37;
+      --gold-lt: #814141;
+      --border:  rgba(110, 90, 130, 0.18);
+      --border2: rgba(110, 90, 130, 0.32);
+    }
+
+    body {
+      font-family: 'Crimson Pro', serif;
+      background: var(--bone);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 40px;
+      background: rgba(250, 248, 251, 0.92);
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+    .wordmark {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      letter-spacing: 2.5px;
+      color: var(--ink2);
+      text-transform: uppercase;
+    }
+    .wordmark span { color: var(--gold-lt); }
+    .nav-links { display: flex; gap: 2px; }
+    .nav-links a {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: var(--mist);
+      padding: 6px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--ink2);
+      background: var(--veil);
+    }
+    .btn-outline {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      border: 0.5px solid var(--border2);
+      padding: 8px 18px;
+      background: none;
+      color: var(--mist);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-outline:hover { background: var(--veil); color: var(--ink2); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 72px 40px 60px;
+      border-bottom: 0.5px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      max-width: 900px;
+    }
+    .hero-bg {
+      position: absolute;
+      right: -20px; top: -10px;
+      width: 340px; height: 360px;
+      background: var(--veil);
+      clip-path: polygon(40% 0%, 100% 0%, 100% 80%, 60% 100%, 0% 70%, 10% 20%);
+      opacity: 0.55;
+    }
+    .hero-rune {
+      position: absolute;
+      right: 80px; top: 52px;
+      width: 130px; height: 130px;
+      border: 0.5px solid var(--border2);
+      transform: rotate(12deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fog);
+      font-size: 64px;
+    }
+    .hero-rune2 {
+      position: absolute;
+      right: 112px; top: 84px;
+      width: 68px; height: 68px;
+      border: 0.5px solid var(--border);
+      transform: rotate(28deg);
+    }
+    .eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 46px;
+      font-weight: 400;
+      color: var(--ink2);
+      line-height: 1.2;
+      max-width: 460px;
+      margin-bottom: 22px;
+    }
+    .hero h1 em { font-style: italic; color: var(--mist); }
+    .hero p {
+      font-size: 19px;
+      font-weight: 300;
+      color: var(--mist);
+      line-height: 1.7;
+      max-width: 400px;
+      margin-bottom: 32px;
+    }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-dark {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      background: var(--ink2);
+      border: none;
+      padding: 12px 26px;
+      color: var(--fog);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.15s;
+    }
+    .btn-dark:hover { background: var(--ink); }
+
+    /* ── Section heading ── */
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 44px 40px 24px;
+      max-width: 900px;
+    }
+    .section-head h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ash);
+      font-weight: 400;
+      white-space: nowrap;
+    }
+    .rule { flex: 1; height: 0.5px; background: var(--border); }
+
+    /* ── Games grid ── */
+    .games {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin: 0 40px;
+      max-width: 820px;
+    }
+    @media (max-width: 600px) {
+      .games { grid-template-columns: 1fr; margin: 0 20px; }
+      .hero { padding: 48px 20px 40px; }
+      .section-head { padding: 32px 20px 16px; }
+      nav { padding: 14px 20px; }
+      .manifesto { margin: 0 20px; }
+      .footer { padding: 20px; }
+    }
+    .game {
+      background: var(--bone);
+      padding: 28px 26px 24px;
+      cursor: default;
+      transition: background 0.15s;
+    }
+    .game:hover { background: var(--veil); }
+    .game-num {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .game-icon {
+      width: 44px; height: 44px;
+      border: 0.5px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--mist);
+      margin-bottom: 16px;
+      font-size: 22px;
+    }
+    .game h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink2);
+      margin-bottom: 8px;
+    }
+    .game p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--mist);
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 0.5px solid var(--border2);
+      color: var(--ash);
+    }
+    .tag.featured {
+      background: var(--veil);
+      color: var(--ink2);
+      border-color: var(--border2);
+    }
+
+    /* ── Manifesto ── */
+    .manifesto {
+      margin: 0 40px;
+      padding: 32px 28px;
+      border: 0.5px solid var(--border);
+      background: var(--veil);
+      max-width: 820px;
+    }
+    .manifesto blockquote {
+      font-size: 20px;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--ink2);
+      line-height: 1.75;
+    }
+    .manifesto cite {
+      display: block;
+      margin-top: 14px;
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      font-style: normal;
+      text-transform: uppercase;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 28px 40px;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 48px;
+    }
+    .footer-copy {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--ash);
+      text-transform: uppercase;
+    }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--ash);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--ink2); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="wordmark">Fawn's <span>Veil</span></div>
+    <div class="nav-links">
+      <a href="#games" class="active">games</a>
+      <a href="#studio">studio</a>
+      <a href="#press">press</a>
+    </div>
+    <button class="btn-outline">wishlist</button>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-rune">&#x25C7;</div>
+    <div class="hero-rune2"></div>
+    <p class="eyebrow">&#x2767; independent game studio</p>
+    <h1>where the <em>forest</em><br>holds its breath</h1>
+    <p>We craft slow-burning horror, atmospheric puzzles, and stories that linger long after the screen goes dark.</p>
+    <div class="hero-btns">
+      <button class="btn-dark">explore our games</button>
+      <button class="btn-outline">follow the studio</button>
+    </div>
+  </section>
+
+  <div class="section-head" id="games">
+    <h2>our games</h2>
+    <div class="rule"></div>
+  </div>
+
+  <div class="games">
+    <div class="game">
+      <div class="game-num">01</div>
+      <div class="game-icon">&#x263D;</div>
+      <h3>Amenti</h3>
+      <p>A girl returns to her grandmother's estate. Something returns with her.</p>
+      <div class="tags">
+        <span class="tag featured">flagship</span>
+        <span class="tag">horror</span>
+        <span class="tag">narrative</span>
+      </div>
+    </div>
+    <div class="game">
+      <div class="game-num">02</div>
+      <div class="game-icon">&#x2668;</div>
+      <h3>Ash &amp; Fears To Fathom</h3>
+      <p>Two strangers decode the last messages of a vanished village.</p>
+      <div class="tags">
+        <span class="tag">puzzle</span>
+        <span class="tag">mystery</span>
+      </div>
+    </div>
+    <div class="game">
+      <div class="game-num">03</div>
+      <div class="game-icon">&#x2020;</div>
+      <h3>Plumage</h3>
+      <p>A coming-of-age tale set inside the mind of a dying ornithologist.</p>
+      <div class="tags">
+        <span class="tag">atmospheric</span>
+        <span class="tag">short-form</span>
+      </div>
+    </div>
+    <div class="game">
+      <div class="game-num">04</div>
+      <div class="game-icon">&#x223C;</div>
+      <h3>Silt &amp; Silence</h3>
+      <p>Dive into a flooded archive. Recover what was meant to be forgotten.</p>
+      <div class="tags">
+        <span class="tag">in development</span>
+        <span class="tag">exploration</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h2>our ethos</h2>
+    <div class="rule"></div>
+  </div>
+
+  <div class="manifesto">
+    <blockquote>"We make games for people who sit with discomfort — who find beauty in the unsettling, and truth in the dark corners of a story."</blockquote>
+    <cite>&#x2767; Fawn's Veil, founded 2021</cite>
+  </div>
+
+  <footer>
+    <div class="footer-copy">&copy; 2026 Fawn's Veil</div>
+    <div class="footer-links">
+      <a href="#">twitter</a>
+      <a href="#">itch.io</a>
+      <a href="#">steam</a>
+      <a href="#">contact</a>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.querySelectorAll('.nav-links a').forEach(x => x.classList.remove('active'));
+        a.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
