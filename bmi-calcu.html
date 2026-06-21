@@ -73,9 +73,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 32px;
     color: var(--accent-dk);
-    opacity: 0.75;
   }
 
   .card {
@@ -167,6 +166,15 @@
   .calc-btn:hover { background: #c14e76; }
   .calc-btn:active { transform: scale(0.98); }
 
+  .error-msg {
+    color: #c14e76;
+    font-size: 13px;
+    margin-top: 8px;
+    text-align: center;
+    display: none;
+  }
+  .error-msg.show { display: block; }
+
   .result-wrap {
     margin-top: 26px;
     text-align: center;
@@ -251,10 +259,8 @@
     <div class="eyebrow">𐙚 don't forget to eat!</div>
     <h1>BMI Calculator</h1>
     <div class="sub">a gentle little check-in >ᴗ<</div>
-    <div class="sticker-spot">
-  <img src="my melody.jpg" alt="sticker" style="width:100%;height:100%;object-fit:contain;border-radius:50%;" />
-</div>
-    </header>   
+    <div class="sticker-spot">🌸</div>
+  </header>   
 
   <div class="card">
     <div class="unit-toggle">
@@ -265,11 +271,11 @@
     <div id="metricFields">
       <div class="field">
         <label for="heightCm">Height (cm)</label>
-        <input type="number" id="heightCm" placeholder="e.g. 165" inputmode="decimal" />
+        <input type="number" id="heightCm" placeholder="e.g. 165" inputmode="decimal" min="50" max="250" />
       </div>
       <div class="field">
         <label for="weightKg">Weight (kg)</label>
-        <input type="number" id="weightKg" placeholder="e.g. 58" inputmode="decimal" />
+        <input type="number" id="weightKg" placeholder="e.g. 58" inputmode="decimal" min="20" max="500" />
       </div>
     </div>
 
@@ -277,17 +283,18 @@
       <div class="field">
         <label>Height</label>
         <div class="field-row">
-          <input type="number" id="heightFt" placeholder="ft" inputmode="decimal" />
-          <input type="number" id="heightIn" placeholder="in" inputmode="decimal" />
+          <input type="number" id="heightFt" placeholder="ft" inputmode="decimal" min="0" max="10" />
+          <input type="number" id="heightIn" placeholder="in" inputmode="decimal" min="0" max="12" />
         </div>
       </div>
       <div class="field">
         <label for="weightLb">Weight (lb)</label>
-        <input type="number" id="weightLb" placeholder="e.g. 128" inputmode="decimal" />
+        <input type="number" id="weightLb" placeholder="e.g. 128" inputmode="decimal" min="50" max="1100" />
       </div>
     </div>
 
     <button class="calc-btn" id="calcBtn">Calculate ₍^. .^₎⟆</button>
+    <div class="error-msg" id="errorMsg"></div>
 
     <div class="result-wrap" id="resultWrap">
       <div class="blob">
@@ -299,7 +306,7 @@
     </div>
   </div>
 
-  <p class="note">BMI is a simple screening number, not a full picture of health. It doesn't account for muscle, bone density, age, or body composition, a doctor can give you a much fuller read on what's healthy for you ♡.</p>
+  <p class="note">BMI is a simple screening number, not a full picture of health. It doesn't account for muscle, bone density, age, or body composition. A doctor can give you a much fuller read on what's happening with your health. Be gentle with yourself. 💗</p>
 </div>
 
 <script>
@@ -322,6 +329,9 @@
   const unitBtns = document.querySelectorAll('.unit-toggle button');
   const metricFields = document.getElementById('metricFields');
   const imperialFields = document.getElementById('imperialFields');
+  const calcBtn = document.getElementById('calcBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const resultWrap = document.getElementById('resultWrap');
 
   unitBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -330,6 +340,7 @@
       btn.classList.add('active');
       metricFields.style.display = unit === 'metric' ? 'block' : 'none';
       imperialFields.style.display = unit === 'imperial' ? 'block' : 'none';
+      errorMsg.classList.remove('show');
     });
   });
 
@@ -340,13 +351,26 @@
     return 'Well above typical range';
   }
 
-  document.getElementById('calcBtn').addEventListener('click', () => {
+  function showError(message) {
+    errorMsg.textContent = message;
+    errorMsg.classList.add('show');
+  }
+
+  function clearError() {
+    errorMsg.classList.remove('show');
+  }
+
+  function calculate() {
+    clearError();
     let heightM, weightKg;
 
     if (unit === 'metric') {
       const h = parseFloat(document.getElementById('heightCm').value);
       const w = parseFloat(document.getElementById('weightKg').value);
-      if (!h || !w || h <= 0 || w <= 0) return;
+      if (!h || !w || h <= 0 || w <= 0) {
+        showError('Please enter valid height and weight values');
+        return;
+      }
       heightM = h / 100;
       weightKg = w;
     } else {
@@ -354,7 +378,10 @@
       const inch = parseFloat(document.getElementById('heightIn').value) || 0;
       const lb = parseFloat(document.getElementById('weightLb').value);
       const totalIn = ft * 12 + inch;
-      if (!totalIn || !lb || lb <= 0) return;
+      if (!totalIn || !lb || lb <= 0) {
+        showError('Please enter valid height and weight values');
+        return;
+      }
       heightM = totalIn * 0.0254;
       weightKg = lb * 0.453592;
     }
@@ -362,7 +389,16 @@
     const bmi = weightKg / (heightM * heightM);
     document.getElementById('bmiNum').textContent = bmi.toFixed(1);
     document.getElementById('bmiCategory').textContent = categoryFor(bmi);
-    document.getElementById('resultWrap').classList.add('show');
+    resultWrap.classList.add('show');
+  }
+
+  calcBtn.addEventListener('click', calculate);
+
+  // Support Enter key to calculate
+  document.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      calculate();
+    }
   });
 })();
 </script>
