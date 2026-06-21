@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ocean & Bubbles 🫧</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --deep:   #011a3c;
+      --mid:    #013a6b;
+      --light:  #0277bd;
+      --surface:#29b6f6;
+      --foam:   #b3e5fc;
+      --sand:   #f5e6c8;
+      --sand2:  #e8d5a3;
+      --coral:  #ff7043;
+      --coral2: #ef5350;
+      --kelp:   #2e7d32;
+      --gold:   #ffd54f;
+    }
+
+    body {
+      background: linear-gradient(180deg, #87ceeb 0%, #b0e0ff 18%, var(--surface) 22%, var(--light) 35%, var(--mid) 60%, var(--deep) 100%);
+      min-height: 100vh;
+      font-family: 'Nunito', sans-serif;
+      overflow: hidden;
+      cursor: none;
+      position: relative;
+    }
+
+    .cursor {
+      position: fixed;
+      font-size: 24px;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%,-50%);
+    }
+
+    /* sky */
+    .sky {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 22vh;
+      background: linear-gradient(180deg, #87ceeb 0%, #b0e0ff 100%);
+      z-index: 0;
+    }
+
+    .cloud {
+      position: absolute;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50px;
+    }
+
+    /* sun */
+    .sun {
+      position: fixed;
+      top: 20px; right: 80px;
+      width: 55px; height: 55px;
+      border-radius: 50%;
+      background: radial-gradient(#fff8a0, #ffd700);
+      box-shadow: 0 0 24px 8px rgba(255,215,0,0.4);
+      z-index: 2;
+    }
+
+    /* water surface shimmer */
+    .water-surface {
+      position: fixed;
+      top: 20vh;
+      left: 0; right: 0;
+      height: 60px;
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    .wave {
+      position: absolute;
+      width: 200%;
+      height: 60px;
+      background: rgba(41,182,246,0.5);
+      border-radius: 40%;
+      animation: waveAnim linear infinite;
+    }
+    .wave2 {
+      background: rgba(179,229,252,0.35);
+      border-radius: 45%;
+      animation-direction: reverse;
+    }
+
+    @keyframes waveAnim {
+      0%   { transform: translateX(-50%) rotate(0deg); }
+      100% { transform: translateX(-50%) rotate(360deg); }
+    }
+
+    /* seafloor */
+    .seafloor {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 140px;
+      background: linear-gradient(180deg, var(--sand) 0%, var(--sand2) 100%);
+      border-radius: 60% 60% 0 0 / 30px 30px 0 0;
+      z-index: 3;
+    }
+
+    /* seaweed */
+    .weed {
+      position: fixed;
+      bottom: 80px;
+      width: 12px;
+      border-radius: 50px;
+      background: var(--kelp);
+      transform-origin: bottom center;
+      animation: weedSway ease-in-out infinite alternate;
+      z-index: 4;
+    }
+    @keyframes weedSway {
+      from { transform: rotate(-18deg) scaleX(1); }
+      to   { transform: rotate(18deg) scaleX(0.85); }
+    }
+    .weed::before {
+      content:'';
+      position:absolute;
+      top: 20%;
+      left: -8px;
+      width: 14px; height: 22px;
+      background: #388e3c;
+      border-radius: 50%;
+      transform: rotate(-25deg);
+    }
+    .weed::after {
+      content:'';
+      position:absolute;
+      top: 50%;
+      right: -8px;
+      width: 14px; height: 20px;
+      background: #43a047;
+      border-radius: 50%;
+      transform: rotate(25deg);
+    }
+
+    /* rocks */
+    .rock {
+      position: fixed;
+      bottom: 90px;
+      border-radius: 50% 50% 40% 40%;
+      background: linear-gradient(135deg, #78909c, #546e7a);
+      box-shadow: inset -4px -4px 10px rgba(0,0,0,0.2);
+      z-index: 4;
+    }
+
+    /* coral */
+    .coral-el {
+      position: fixed;
+      bottom: 95px;
+      font-size: 32px;
+      z-index: 4;
+      animation: coralSway ease-in-out infinite alternate;
+      transform-origin: bottom center;
+    }
+    @keyframes coralSway {
+      from { transform: rotate(-5deg); }
+      to   { transform: rotate(5deg); }
+    }
+
+    /* fish */
+    .fish {
+      position: fixed;
+      font-size: 26px;
+      animation: fishSwim linear infinite;
+      z-index: 6;
+    }
+    @keyframes fishSwim {
+      0%   { transform: translateX(0) translateY(0); }
+      20%  { transform: translateX(60px) translateY(-20px); }
+      50%  { transform: translateX(30px) translateY(15px); }
+      80%  { transform: translateX(-40px) translateY(-10px); }
+      100% { transform: translateX(0) translateY(0); }
+    }
+
+    /* bubbles */
+    .bubble {
+      position: fixed;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(179,229,252,0.3));
+      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: inset -3px -3px 6px rgba(255,255,255,0.4), 0 0 8px rgba(179,229,252,0.3);
+      animation: bubbleRise linear forwards;
+      pointer-events: none;
+      z-index: 8;
+    }
+
+    @keyframes bubbleRise {
+      0%   { transform: translateX(0) scale(0.3); opacity: 0; }
+      10%  { opacity: 1; transform: translateX(0) scale(1); }
+      50%  { transform: translateX(var(--sway)) scale(1.05); opacity: 0.9; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateX(calc(var(--sway)*-0.5)) translateY(-90vh) scale(0.7); opacity: 0; }
+    }
+
+    /* click bubble burst */
+    .burst-bubble {
+      position: fixed;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .burst-bubble span {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(179,229,252,0.4));
+      border: 1px solid rgba(255,255,255,0.7);
+      animation: burstOut ease-out forwards;
+    }
+    @keyframes burstOut {
+      0%   { transform: translate(0,0) scale(0.5); opacity: 1; }
+      100% { transform: translate(var(--bx),var(--by)) scale(0.1); opacity: 0; }
+    }
+
+    /* starfish */
+    .starfish {
+      position: fixed;
+      font-size: 28px;
+      bottom: 95px;
+      z-index: 4;
+      animation: starfishWobble 4s ease-in-out infinite;
+    }
+    @keyframes starfishWobble {
+      0%,100% { transform: rotate(0deg); }
+      50%      { transform: rotate(15deg); }
+    }
+
+    /* title */
+    .title-wrap {
+      position: fixed;
+      top: 24px; left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 20;
+    }
+    .title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(24px, 4.5vw, 44px);
+      color: #01579b;
+      text-shadow: 0 2px 8px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.5);
+      white-space: nowrap;
+    }
+    .subtitle {
+      font-size: 12px;
+      color: rgba(1,87,155,0.65);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* light rays */
+    .rays {
+      position: fixed;
+      top: 20vh; left: 0; right: 0;
+      height: 60vh;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .ray {
+      position: absolute;
+      top: 0;
+      width: 60px;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 100%);
+      transform-origin: top center;
+      animation: rayWaver ease-in-out infinite alternate;
+    }
+    @keyframes rayWaver {
+      from { opacity: 0.4; transform: skewX(-5deg); }
+      to   { opacity: 0.8; transform: skewX(5deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor">🫧</div>
+
+  <!-- Sky -->
+  <div class="sky">
+    <div class="cloud" style="width:110px;height:35px;top:18px;left:15%;"></div>
+    <div class="cloud" style="width:80px;height:25px;top:35px;left:40%;opacity:0.8;"></div>
+    <div class="cloud" style="width:130px;height:40px;top:12px;left:62%;"></div>
+  </div>
+
+  <div class="sun"></div>
+
+  <!-- Light rays -->
+  <div class="rays" id="rays"></div>
+
+  <!-- Water surface -->
+  <div class="water-surface">
+    <div class="wave" style="animation-duration:8s;top:-20px;"></div>
+    <div class="wave wave2" style="animation-duration:10s;top:-15px;"></div>
+  </div>
+
+  <!-- Seafloor -->
+  <div class="seafloor"></div>
+
+  <!-- Title -->
+  <div class="title-wrap">
+    <div class="title">Ocean & Bubbles 🌊</div>
+    <div class="subtitle">Click to make bubbles rise ✨</div>
+  </div>
+
+  <script>
+    // cursor
+    const cur = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px';
+      cur.style.top  = e.clientY + 'px';
+    });
+
+    // light rays
+    const raysEl = document.getElementById('rays');
+    for (let i = 0; i < 8; i++) {
+      const r = document.createElement('div');
+      r.className = 'ray';
+      r.style.cssText = `
+        left:${5+i*12}%;
+        width:${40+Math.random()*60}px;
+        animation-duration:${2+Math.random()*3}s;
+        animation-delay:${Math.random()*2}s;
+        transform:skewX(${-10+Math.random()*20}deg);
+      `;
+      raysEl.appendChild(r);
+    }
+
+    // seaweed
+    const weedPos = [5,12,20,30,40,52,63,72,82,90];
+    weedPos.forEach(left => {
+      const w = document.createElement('div');
+      w.className = 'weed';
+      const h = 40 + Math.random() * 60;
+      w.style.cssText = `
+        left:${left}vw;
+        height:${h}px;
+        animation-duration:${2+Math.random()*2}s;
+        animation-delay:${Math.random()*2}s;
+        opacity:${0.7+Math.random()*0.3};
+      `;
+      document.body.appendChild(w);
+    });
+
+    // rocks
+    [[8,60,30],[22,45,22],[55,70,35],[70,50,25],[85,65,40],[42,40,18]].forEach(([l,w,h]) => {
+      const r = document.createElement('div');
+      r.className = 'rock';
+      r.style.cssText = `left:${l}vw;width:${w}px;height:${h}px;`;
+      document.body.appendChild(r);
+    });
+
+    // corals & starfish
+    ['🪸','🪸','⭐','🪸','🐚','🪸'].forEach((emoji, i) => {
+      const el = document.createElement('div');
+      el.className = i === 2 || i === 4 ? 'starfish' : 'coral-el';
+      el.textContent = emoji;
+      el.style.left = (10 + i * 16) + 'vw';
+      el.style.animationDuration = (3 + Math.random() * 2) + 's';
+      el.style.animationDelay = (Math.random() * 2) + 's';
+      document.body.appendChild(el);
+    });
+
+    const fishData = [
+      {emoji:'🐠', top:35, left:20, dur:9},
+      {emoji:'🐡', top:50, left:60, dur:12},
+      {emoji:'🐟', top:42, left:40, dur:7},
+      {emoji:'🦑', top:60, left:75, dur:14},
+      {emoji:'🐠', top:55, left:15, dur:10},
+      {emoji:'🐙', top:65, left:50, dur:16},
+    ];
+    fishData.forEach(({emoji, top, left, dur}) => {
+      const f = document.createElement('div');
+      f.className = 'fish';
+      f.textContent = emoji;
+      f.style.cssText = `top:${top}vh;left:${left}vw;animation-duration:${dur}s;animation-delay:-${Math.random()*dur}s;`;
+      document.body.appendChild(f);
+    });
+
+    function spawnBubble(x, y) {
+      const b = document.createElement('div');
+      b.className = 'bubble';
+      const size = 10 + Math.random() * 30;
+      const sway = (Math.random() - 0.5) * 80;
+      const dur  = 4 + Math.random() * 5;
+      b.style.cssText = `
+        width:${size}px; height:${size}px;
+        left:${x - size/2}px;
+        top:${y}px;
+        animation-duration:${dur}s;
+        --sway:${sway}px;
+      `;
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), dur * 1000 + 200);
+    }
+
+    function autoBubbles() {
+      spawnBubble(Math.random() * window.innerWidth, window.innerHeight * 0.7 + Math.random() * window.innerHeight * 0.2);
+      setTimeout(autoBubbles, 300 + Math.random() * 600);
+    }
+    autoBubbles();
+
+    // click burst
+    document.addEventListener('click', e => {
+      // burst
+      const wrap = document.createElement('div');
+      wrap.className = 'burst-bubble';
+      wrap.style.left = e.clientX + 'px';
+      wrap.style.top  = e.clientY + 'px';
+      for (let i = 0; i < 8; i++) {
+        const s = document.createElement('span');
+        const size = 8 + Math.random() * 16;
+        const angle = (i / 8) * Math.PI * 2;
+        const dist  = 30 + Math.random() * 50;
+        s.style.cssText = `
+          width:${size}px; height:${size}px;
+          --bx:${Math.cos(angle)*dist}px;
+          --by:${Math.sin(angle)*dist}px;
+          animation-duration:0.6s;
+          animation-delay:${i*0.04}s;
+        `;
+        wrap.appendChild(s);
+      }
+      document.body.appendChild(wrap);
+      setTimeout(() => wrap.remove(), 900);
+
+      // rise bubbles from click
+      for (let i = 0; i < 4; i++) {
+        setTimeout(() => spawnBubble(e.clientX + (Math.random()-0.5)*30, e.clientY), i * 100);
+      }
+    });
+  </script>
+</body>
+</html>
